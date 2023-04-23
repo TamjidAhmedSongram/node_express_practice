@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
-
+import contactRouter from "../routes/contactRouters"
 // Create an Express app instance dsdsf
 const app = express();
 
@@ -16,6 +16,8 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => {
   res.send('Hello from Express TypeScript');
 });
+
+app.use("/api/contacts",contactRouter)
 
 // Export the app
 export default app;
