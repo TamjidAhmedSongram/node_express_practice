@@ -8,6 +8,10 @@ export const contactGetById= (req:Request, res:Response)=>{
 
 export const createNew= (req:Request, res:Response)=>{
     console.log(req.body)
+    if (!req.body.name || !req.body.age || !req.body.phone_number){
+        // console.log("error")
+        throw new Error("All fields are required")
+    }
     res.status(201).json({message:"Created the message"})
 }
 export const updateById = (req:Request,res:Response) =>{
