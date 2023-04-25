@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
 import contactRouter from "../routes/contactRouters"
+import {  errorHandler} from "../middlewares/errorHandeler";
 // Create an Express app instance dsdsf
 const app = express();
 
@@ -18,6 +19,6 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/contacts",contactRouter)
-
+app.use(errorHandler)
 // Export the app
 export default app;

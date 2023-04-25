@@ -10,6 +10,7 @@ export const createNew= (req:Request, res:Response)=>{
     console.log(req.body)
     if (!req.body.name || !req.body.age || !req.body.phone_number){
         // console.log("error")
+        res.status(400)
         throw new Error("All fields are required")
     }
     res.status(201).json({message:"Created the message"})
