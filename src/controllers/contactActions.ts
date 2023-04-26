@@ -7,7 +7,7 @@ export const contactGetById= (req:Request, res:Response)=>{
 }
 
 export const createNew= (req:Request, res:Response)=>{
-    console.log(req.body)
+    // console.log(req.body)
     if (!req.body.name || !req.body.age || !req.body.phone_number){
         // console.log("error")
         res.status(400)
