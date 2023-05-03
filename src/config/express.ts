@@ -6,7 +6,7 @@ import contactRouter from "../routes/contactRouters"
 import {  errorHandler} from "../middlewares/errorHandeler";
 import connectDB from './connectionDB';
 import  dotenv from 'dotenv'
-
+import usersRouters from "../routes/usersRouters"
 // Load environment variables from .env file+
 dotenv.config()
 // Create an Express app instance dsdsf
@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/contacts",contactRouter)
+app.use("/api/users",usersRouters)
 app.use(errorHandler)
 // Export the app
 export default app;
