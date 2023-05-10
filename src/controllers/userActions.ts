@@ -49,8 +49,6 @@ export const registerActions = asyncHandler(
 
 export const currentActions = asyncHandler(
   async (req: Request, res: Response) => {
-    res.status(200).json({
-      message: "Current user",
-    });
+    res.status(200).json((req as any).user);
   }
 ); 
