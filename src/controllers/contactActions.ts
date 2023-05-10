@@ -3,17 +3,22 @@ import asyncHandler from "express-async-handler";
 import contactModel from "../models/contactModel";
 
 export const contactGet= asyncHandler (async (req:Request, res:Response)=>{
-    const contacts = await contactModel.find()
+    // console.log("---------")
+    const contacts = await contactModel.find({user_id:(req as any).user.id})
     res.status(200).json(contacts)
 })
 
 export const contactGetById= asyncHandler (async (req:Request, res:Response)=>{
-    const contactDetails = await contactModel.findById(req.params.id)
-    if (!contactDetails){
+    const contact = await contactModel.findById(req.params.id)
+    if(!contact){
         res.status(404)
-        throw new Error("No data for id is found ")
+        throw new Error("Contact not found")
     }
-    res.status(200).json(contactDetails)
+    if(contact.user_id?.toString() !== req.params.id){
+        res.status(403)
+        throw new Error("User dont have permission to create")
+    }
+    res.status(200).json(contact)
 })
 
 export const createNew= asyncHandler (async (req:Request, res:Response)=>{
@@ -24,7 +29,7 @@ export const createNew= asyncHandler (async (req:Request, res:Response)=>{
             throw new Error("All fields are required")
         }
         await contactModel.syncIndexes()
-        const payload=new contactModel({name,email,phoneNumber})
+        const payload=new contactModel({name,email,phoneNumber,user_id:(req as any).user.id})
         
         const payloadResponse= await payload.save()
         res.status(201).json(payloadResponse)
@@ -42,6 +47,16 @@ export const createNew= asyncHandler (async (req:Request, res:Response)=>{
 }
 )
 export const updateById = asyncHandler( async (req:Request,res:Response) =>{
+    const contact = await contactModel.findById(req.params.id)
+    if(!contact){
+        res.status(404)
+        throw new Error("Contact not found")
+    }
+    if(contact.user_id?.toString() !== req.params.id){
+        res.status(403)
+        throw new Error("User dont have permission to create")
+    }
+
     try {
         const putResponse= await contactModel.findByIdAndUpdate(req.params.id,req.body, {new:true})
         res.status(200).json(putResponse)
@@ -54,6 +69,15 @@ export const updateById = asyncHandler( async (req:Request,res:Response) =>{
 })
 
 export const deleteById = asyncHandler (async (req:Request,res:Response) =>{
+    const contact = await contactModel.findById(req.params.id)
+    if(!contact){
+        res.status(404)
+        throw new Error("Contact not found")
+    }
+    if(contact.user_id?.toString() !== req.params.id){
+        res.status(403)
+        throw new Error("User dont have permission to create")
+    }
     try {
         const deleted= await contactModel.findByIdAndDelete(req.params.id)
         if (deleted) {

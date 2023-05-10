@@ -23,7 +23,7 @@ const validateToken = asyncHandler(async (req: Request, res, next) => {
       }
     );
   }
-  if (!token) {
+  else {
     res.status(401);
     throw new Error("Token is Missing");
   }

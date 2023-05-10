@@ -14,7 +14,7 @@ export const loginActions = asyncHandler(
     const user= await userModel.findOne({email:email})
     if(user && await bcrypt.compare(password,user.password)){
  
-        const token = jwt.sign({userName:user.userName, email:user.email, id:user.id},process.env.JWT_SECRET_KEY as string,{expiresIn:"1m"})
+        const token = jwt.sign({userName:user.userName, email:user.email, id:user.id},process.env.JWT_SECRET_KEY as string,{expiresIn:"100m"})
         res.status(200).json({token});
     }
     else{

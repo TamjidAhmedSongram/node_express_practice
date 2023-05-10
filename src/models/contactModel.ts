@@ -1,6 +1,11 @@
 import {Schema, model} from "mongoose";
 
 const contactSchema = new Schema({
+    user_id:{
+        type: Schema.Types.ObjectId,
+        require:true,
+        ref:"userSchema"
+    },
     name: {
         type: String,
         required:[true,"This Name field is required"]
